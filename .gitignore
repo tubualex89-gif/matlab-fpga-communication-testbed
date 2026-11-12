@@ -1,0 +1,20 @@
+# Vivado、Vitis 生成文件和本地实验数据
+*.jou
+*.log
+*.str
+*.pb
+*.bit
+*.bin
+*.elf
+*.xsa
+*.dcp
+*.wdb
+*.mat
+*.asv
+*.cache/
+*.gen/
+*.runs/
+*.hw/
+*.sim/
+*.ip_user_files/
+build/
