@@ -1,0 +1,10 @@
+
+
+OPTION psf_version = 2.1;
+
+BEGIN DRIVER Test_bed_tx_ctr
+	OPTION supported_peripherals = (Test_bed_tx_ctr);
+	OPTION copyfiles = all;
+	OPTION VERSION = 1.0;
+	OPTION NAME = Test_bed_tx_ctr;
+END DRIVER
