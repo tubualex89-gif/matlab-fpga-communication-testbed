@@ -433,7 +433,7 @@
             "value": "10.096154"
           },
           "PCW_ACT_ENET0_PERIPHERAL_FREQMHZ": {
-            "value": "25.000000"
+            "value": "125.000000"
           },
           "PCW_ACT_ENET1_PERIPHERAL_FREQMHZ": {
             "value": "10.000000"
@@ -513,8 +513,14 @@
           "PCW_CAN0_PERIPHERAL_CLKSRC": {
             "value": "External"
           },
+          "PCW_CAN0_PERIPHERAL_ENABLE": {
+            "value": "0"
+          },
           "PCW_CAN1_PERIPHERAL_CLKSRC": {
             "value": "External"
+          },
+          "PCW_CAN1_PERIPHERAL_ENABLE": {
+            "value": "0"
           },
           "PCW_CAN_PERIPHERAL_CLKSRC": {
             "value": "IO PLL"
@@ -589,7 +595,7 @@
             "value": "1"
           },
           "PCW_ENET0_PERIPHERAL_FREQMHZ": {
-            "value": "100 Mbps"
+            "value": "1000 Mbps"
           },
           "PCW_ENET0_RESET_ENABLE": {
             "value": "1"
@@ -837,6 +843,24 @@
           "PCW_FPGA_FCLK0_ENABLE": {
             "value": "1"
           },
+          "PCW_GP0_EN_MODIFIABLE_TXN": {
+            "value": "1"
+          },
+          "PCW_GP0_NUM_READ_THREADS": {
+            "value": "4"
+          },
+          "PCW_GP0_NUM_WRITE_THREADS": {
+            "value": "4"
+          },
+          "PCW_GP1_EN_MODIFIABLE_TXN": {
+            "value": "1"
+          },
+          "PCW_GP1_NUM_READ_THREADS": {
+            "value": "4"
+          },
+          "PCW_GP1_NUM_WRITE_THREADS": {
+            "value": "4"
+          },
           "PCW_GPIO_BASEADDR": {
             "value": "0xE000A000"
           },
@@ -853,6 +877,12 @@
             "value": "MIO"
           },
           "PCW_GPIO_PERIPHERAL_ENABLE": {
+            "value": "0"
+          },
+          "PCW_I2C0_PERIPHERAL_ENABLE": {
+            "value": "0"
+          },
+          "PCW_I2C1_PERIPHERAL_ENABLE": {
             "value": "0"
           },
           "PCW_I2C_RESET_ENABLE": {
@@ -1503,6 +1533,9 @@
           "PCW_PERIPHERAL_BOARD_PRESET": {
             "value": "part0"
           },
+          "PCW_PJTAG_PERIPHERAL_ENABLE": {
+            "value": "0"
+          },
           "PCW_PLL_BYPASSMODE_ENABLE": {
             "value": "0"
           },
@@ -1626,8 +1659,23 @@
           "PCW_SPI_PERIPHERAL_VALID": {
             "value": "0"
           },
+          "PCW_S_AXI_HP0_DATA_WIDTH": {
+            "value": "64"
+          },
+          "PCW_S_AXI_HP0_ID_WIDTH": {
+            "value": "6"
+          },
           "PCW_TPIU_PERIPHERAL_CLKSRC": {
             "value": "External"
+          },
+          "PCW_TRACE_INTERNAL_WIDTH": {
+            "value": "2"
+          },
+          "PCW_TRACE_PERIPHERAL_ENABLE": {
+            "value": "0"
+          },
+          "PCW_TTC0_BASEADDR": {
+            "value": "0xE0104000"
           },
           "PCW_TTC0_CLK0_PERIPHERAL_CLKSRC": {
             "value": "CPU_1X"
@@ -1646,6 +1694,9 @@
           },
           "PCW_TTC0_CLK2_PERIPHERAL_DIVISOR0": {
             "value": "1"
+          },
+          "PCW_TTC0_HIGHADDR": {
+            "value": "0xE0104fff"
           },
           "PCW_TTC0_PERIPHERAL_ENABLE": {
             "value": "1"
@@ -1670,6 +1721,9 @@
           },
           "PCW_TTC1_CLK2_PERIPHERAL_DIVISOR0": {
             "value": "1"
+          },
+          "PCW_TTC1_PERIPHERAL_ENABLE": {
+            "value": "0"
           },
           "PCW_TTC_PERIPHERAL_FREQMHZ": {
             "value": "50"
@@ -2003,6 +2057,12 @@
           },
           "PCW_WDT_PERIPHERAL_DIVISOR0": {
             "value": "1"
+          },
+          "PCW_WDT_PERIPHERAL_ENABLE": {
+            "value": "0"
+          },
+          "preset": {
+            "value": "None"
           }
         },
         "interface_ports": {
