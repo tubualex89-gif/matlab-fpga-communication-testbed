@@ -38,6 +38,10 @@ docs/            发布检查清单及相关文档
 third_party/     本地 lwIP 仓库包及安装说明（如已提供）
 ```
 
+## 视频教程
+
+可参考 [B 站平台复现视频教程](https://www.bilibili.com/video/BV1ayWi6HEUV/)了解工程搭建与使用流程。
+
 ## 单帧测试概要
 
 请先参考 [MATLAB 用户手册](matlab/README.md)完成硬件接线、网络设置和算法配置，然后使用两个 MATLAB 会话：

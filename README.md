@@ -38,6 +38,10 @@ docs/            Release checklist and supporting documentation
 third_party/     Local lwIP repository package and installation notes, if present
 ```
 
+## Video tutorial
+
+Watch the [step-by-step reproduction tutorial on Bilibili](https://www.bilibili.com/video/BV1ayWi6HEUV/).
+
 ## Single-frame test
 
 See the [MATLAB user guide](matlab/README.md) for hardware setup, network settings, and algorithm interfaces. In two MATLAB sessions:
