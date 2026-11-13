@@ -53,3 +53,7 @@ Keep both sessions' configurations consistent. Generated MAT files can be overwr
 The reference receiver uses a fixed hardware capture scheme and filter; the physical frame includes FPGA-added LFM signals and guard intervals. Output voltage depends on the DAC, analog circuitry, load, and calibration. The maximum supported capture and transmit lengths, startup recovery, and supported tool versions must be checked for the selected hardware configuration.
 
 Review the [release checklist](docs/RELEASE_CHECKLIST.md) and third-party notices and licenses before public redistribution.
+
+## License
+
+Project-owned contributions are available under the [MIT License](LICENSE). Third-party files retain their own terms; see [Third-party notices](THIRD_PARTY_NOTICES.md).
