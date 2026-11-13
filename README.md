@@ -1,21 +1,55 @@
 # MATLAB-FPGA Communication Testbed
 
-基于 MATLAB 和 FPGA 的通信算法实测平台。MATLAB 生成通带波形并通过网络发送，FPGA 发射端完成波形输出；接收端采集实际信道信号并传回 MATLAB 进行处理。
+English | [中文](README_zh.md)
 
-当前参考实现面向 1 MHz 采样、约 25 kHz 中心频率的低频水声单帧实验。扩展频段需要根据目标频率、带宽及 ADC/DAC 和模拟前端能力重新设计并验证。
+This testbed helps engineers and students who develop communication algorithms in MATLAB evaluate them over real-world channels. MATLAB controls FPGA-based hardware to transmit and capture waveforms, so users can test their MATLAB algorithms without first reimplementing every algorithm in Verilog. This is especially useful for AI-based communication methods, which can be difficult to implement directly on an FPGA.
 
-> 本目录为首版发布候选：Vivado/Vitis 从本目录重建、第三方文件授权及硬件复现尚待核查；不应视为已经完成的正式发布。
+The FPGA provides the hardware interface for waveform transmission and acquisition; modulation, synchronization, decoding, AI inference, and performance analysis can remain in the user's MATLAB workflow. An algorithm must still produce a real passband waveform compatible with the hardware and process the received samples.
 
-## 目录
+## How it works
 
-- `matlab/`：MATLAB 平台、示例算法和[用户手册](matlab/README.md)。
-- `hardware/tx/`、`hardware/rx/`：发射和接收 Vivado 工程源码及约束。
-- `hardware/ip_repo/`：两端自定义 IP。
-- `firmware/tx/`、`firmware/rx/`：两端 PS 应用源码，含原厂示例衍生文件。
-- `docs/RELEASE_CHECKLIST.md`：发布前必须解决的事项。
+```text
+MATLAB algorithm → TCP → FPGA transmitter → DAC → real channel
+MATLAB algorithm ← TCP ← FPGA receiver    ← ADC ← real channel
+```
 
-## 单帧测试概要
+MATLAB prepares a waveform and sends it to the transmitter. The transmitter adds hardware synchronization signals and guard intervals. The receiver captures the signal and sends samples back to MATLAB for processing.
 
-先参考 `matlab/README.md` 完成硬件和网络配置，再运行 `prepare_tx_frame`，在接收会话运行 `run_rx` 并等待就绪，然后在发送会话运行 `run_tx`。使用两个 MATLAB 会话，保持算法配置一致；测试文件可能被后续测试覆盖。
+## Current reference configuration
 
-本工程原开发工具版本为 Vivado/Vitis 2026.1；MATLAB 版本及工具箱要求需进一步核实。其他版本、板卡和频段尚未验证。
+- PYNQ-Z2-based transmitter and receiver with external DAC and ADC modules.
+- Passband sampling rate: **1 MHz**; current receive filter target band: **20–30 kHz**.
+- Current experiments: single-frame tests around **25 kHz**, including underwater acoustic channels.
+- Built-in MATLAB examples: FSK and OFDM; an example interface is provided for user algorithms.
+- Original development tools: **Vivado/Vitis 2026.1**. MATLAB release and toolbox requirements should be checked against the [MATLAB user guide](matlab/README.md).
+
+Other frequency bands, bandwidths, boards, and analog front ends require appropriate hardware and configuration changes and independent validation. The current project is a release candidate; clean reconstruction and third-party licensing still require review.
+
+## Repository layout
+
+```text
+matlab/          MATLAB platform, algorithms, and user guide
+hardware/tx/     FPGA transmitter project, RTL, and constraints
+hardware/rx/     FPGA receiver project, RTL, and constraints
+hardware/ip_repo/ Custom FPGA control IP
+firmware/tx/     Transmitter PS application sources
+firmware/rx/     Receiver PS application sources
+docs/            Release checklist and supporting documentation
+third_party/     Local lwIP repository package and installation notes, if present
+```
+
+## Single-frame test
+
+See the [MATLAB user guide](matlab/README.md) for hardware setup, network settings, and algorithm interfaces. In two MATLAB sessions:
+
+1. Select the algorithm and run `prepare_tx_frame` in the transmit session.
+2. Run `run_rx` in the receive session and wait until it reports ready.
+3. Run `run_tx` in the transmit session; inspect the captured waveform and algorithm results.
+
+Keep both sessions' configurations consistent. Generated MAT files can be overwritten by later tests. TX and RX PS sources are provided, but a complete from-scratch Vitis platform and BSP reconstruction procedure still needs verification.
+
+## Current limitations
+
+The reference receiver uses a fixed hardware capture scheme and filter; the physical frame includes FPGA-added LFM signals and guard intervals. Output voltage depends on the DAC, analog circuitry, load, and calibration. The maximum supported capture and transmit lengths, startup recovery, and supported tool versions must be checked for the selected hardware configuration.
+
+Review the [release checklist](docs/RELEASE_CHECKLIST.md) and third-party notices and licenses before public redistribution.
