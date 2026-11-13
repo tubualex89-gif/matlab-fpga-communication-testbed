@@ -21,7 +21,14 @@ wire sample_tick = (divider == 7'd99);
 // 5309 / 7373 ~= 1.8 / 2.5; adjust after oscilloscope verification.
 localparam signed [15:0] LFM_GAIN_Q15 = 16'sd5309;
 wire signed [15:0] lfm_sample;
-wire signed [31:0] lfm_product = lfm_sample * LFM_GAIN_Q15;
+// Register the ROM output at 100 MHz to split the ROM-to-DSP timing path.
+// The phase is held for 100 clocks per DAC sample, leaving ample settling time.
+reg signed [15:0] lfm_sample_pipe;
+always @(posedge clk_100m) begin
+    if (!rst_n) lfm_sample_pipe <= 16'sd0;
+    else lfm_sample_pipe <= lfm_sample;
+end
+wire signed [31:0] lfm_product = lfm_sample_pipe * LFM_GAIN_Q15;
 wire signed [15:0] lfm_scaled = lfm_product >>> 15;
 wire accept_start = (state == IDLE) && start && (payload_samples != 0);
 wire restart_tail_lfm = (state == GUARD_TAIL) && sample_tick && (guard_count == 15'd29999);
@@ -57,7 +64,8 @@ always @(posedge clk_100m) begin
                 end
             end
             LFM_HEAD: if (sample_tick) begin
-                dac_sample <= {~lfm_scaled[15], lfm_scaled[14:2]}; dac_sample_valid <= 1;
+                // Phase zero produces midscale; bypass stale pipeline on the first tick.
+                dac_sample <= (lfm_count == 0) ? 14'd8192 : {~lfm_scaled[15], lfm_scaled[14:2]}; dac_sample_valid <= 1;
                 if (lfm_count == 14'd9999) begin guard_count <= 0; state <= GUARD_HEAD; end
                 else lfm_count <= lfm_count + 1'b1;
             end
@@ -82,7 +90,8 @@ always @(posedge clk_100m) begin
                 else guard_count <= guard_count + 1'b1;
             end
             LFM_TAIL: if (sample_tick) begin
-                dac_sample <= {~lfm_scaled[15], lfm_scaled[14:2]}; dac_sample_valid <= 1;
+                // Phase zero produces midscale; bypass stale pipeline on the first tick.
+                dac_sample <= (lfm_count == 0) ? 14'd8192 : {~lfm_scaled[15], lfm_scaled[14:2]}; dac_sample_valid <= 1;
                 if (lfm_count == 14'd9999) begin state <= IDLE; done <= 1; end
                 else lfm_count <= lfm_count + 1'b1;
             end
